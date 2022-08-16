@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url(/img/imageedit_1_9489290437.png);
+  background-size:cover;
+  background-repeat: no-repeat;
+  position: relative;
+  background-attachment: fixed;
+  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+i {
+  cursor: pointer;
+}
+
+p{
+  color: red;
+}
+*{
+  margin: 0;
+  padding: 0;
+}
+
