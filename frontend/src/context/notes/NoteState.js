@@ -2,7 +2,8 @@ import NoteContext from "./NoteContext";
 import { useState } from "react";
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000";
+  //Do not hard code....(duhhh!!!!!!)
+  const host = "https://i--note--book.herokuapp.com";
   const notesInitial = [];
 
   //Get all note
