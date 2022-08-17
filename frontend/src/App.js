@@ -22,7 +22,6 @@ function App() {
       <NoteState>
         <BrowserRouter>
           <Navbar />
-
           <Alert alert={alert} />
           <div className="container">
             <Routes>
