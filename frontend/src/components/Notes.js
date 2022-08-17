@@ -3,7 +3,7 @@ import contextValue from "../context/notes/NoteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 import Pagination from "./Pagination";
-//All logic Same as addNotes #could have made a component of validate
+//All logic Same as addNotes #could have made a component of validate.....
 
 export default function Notes(props) {
   const context = useContext(contextValue);
@@ -56,8 +56,8 @@ export default function Notes(props) {
     const regex = /^[A-Za-z ]*$/;
     if (!values.etitle) {
       error.etitle = "Title is required Please....";
-    } else if (values.etitle.length <= 3) {
-      error.etitle = "Title should be more than 4 character ...";
+    } else if (values.etitle.length <= 2) {
+      error.etitle = "Title should be more than 2 character ...";
     } else if (values.etitle.length >= 10) {
       error.etitle = "Title should be less than 10 character ...";
     } else if (!regex.test(values.etitle)) {
@@ -72,6 +72,8 @@ export default function Notes(props) {
     }
     if (!values.etag) {
       error.etag = "Tag is kind a not required but punch in something....";
+    } else if (values.etag.length <= 2) {
+      error.tag = "Yah you still have to type in something...";
     } else if (values.etag.length >= 15) {
       error.etag = "Tag can not be so long dude come on man...";
     } else if (!regex.test(values.etag)) {
@@ -80,7 +82,7 @@ export default function Notes(props) {
     return error;
   };
 
-  //Logic to daisplay only fixec number to notes
+  //Logic to daisplay only fixed number to notes
   const indexOfLastItem = CurrentPages * numberOfNotes;
   const indexOfFirstItem = indexOfLastItem - numberOfNotes;
   const currentItems = notes.slice(indexOfFirstItem, indexOfLastItem);

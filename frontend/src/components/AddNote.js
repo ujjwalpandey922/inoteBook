@@ -35,8 +35,8 @@ const AddNote = (props) => {
     const regex = /^[A-Za-z ]*$/;
     if (!values.title) {
       error.title = "Title is required Please....";
-    } else if (values.title.length <= 3) {
-      error.title = "Title should be more than 4 character...";
+    } else if (values.title.length <= 2) {
+      error.title = "Title should be more than 2 character...";
     } else if (values.title.length >= 10) {
       error.title = "Title should be less than 10 character ...";
     } else if (!regex.test(values.title)) {
@@ -53,6 +53,8 @@ const AddNote = (props) => {
       error.tag = "Tag is kind a not required but punch in something....";
     } else if (values.tag.length >= 15) {
       error.tag = "Tag can not be so long dude come on man...";
+    } else if (values.tag.length <= 2) {
+      error.tag = "Yah you still have to type in something...";
     } else if (!regex.test(values.tag)) {
       error.tag = "Come on man really????? Numbers Again ???";
     }

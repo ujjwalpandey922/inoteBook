@@ -20,8 +20,8 @@ router.post(
   "/addnotes",
   fetchUser,
   [
-    body("title", "Enter a Valid title").isLength({ min: 3 }),
-    body("tag", "Enter a Valid tag").isLength({ min: 3 }),
+    body("title", "Enter a Valid title").isLength({ min: 2 }),
+    body("tag", "Enter a Valid tag").isLength({ min: 2 }),
     body("description", "description must be more than 10 character").isLength({
       min: 10,
     }),

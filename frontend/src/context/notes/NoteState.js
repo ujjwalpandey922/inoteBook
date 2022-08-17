@@ -15,7 +15,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmYjE2MGVjNTU4NTgwNWZkYWQyYmJhIn0sImlhdCI6MTY2MDYyMjM1MH0.6oUB5TiQl-CFYy1JIO4RmYDtb_jlb120mAHjvdmQwaA",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmY2E4NjgzZmFkZjIxMjVjNWNjNWJhIn0sImlhdCI6MTY2MDcyNTM1Mn0.dJQzZ3A2f-uT8DvRmvWjRe543fTO0_retHCDfkenb6A",
       },
     });
     let json = await response.json();
@@ -32,7 +32,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmYjE2MGVjNTU4NTgwNWZkYWQyYmJhIn0sImlhdCI6MTY2MDYyMjM1MH0.6oUB5TiQl-CFYy1JIO4RmYDtb_jlb120mAHjvdmQwaA",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmY2E4NjgzZmFkZjIxMjVjNWNjNWJhIn0sImlhdCI6MTY2MDcyNTM1Mn0.dJQzZ3A2f-uT8DvRmvWjRe543fTO0_retHCDfkenb6A",
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -49,7 +49,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmYjE2MGVjNTU4NTgwNWZkYWQyYmJhIn0sImlhdCI6MTY2MDYyMjM1MH0.6oUB5TiQl-CFYy1JIO4RmYDtb_jlb120mAHjvdmQwaA",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmY2E4NjgzZmFkZjIxMjVjNWNjNWJhIn0sImlhdCI6MTY2MDcyNTM1Mn0.dJQzZ3A2f-uT8DvRmvWjRe543fTO0_retHCDfkenb6A",
       },
 
       body: JSON.stringify({ title, description, tag }),
@@ -59,7 +59,7 @@ const NoteState = (props) => {
 
     let newNotes = JSON.parse(JSON.stringify(notes));
     //Logic to Edit
-    newNotes.forEach((element, index) => {
+    newNotes.forEach((element) => {
       if (element._id === id) {
         element.title = title;
         element.tag = tag;
@@ -78,21 +78,46 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmYjE2MGVjNTU4NTgwNWZkYWQyYmJhIn0sImlhdCI6MTY2MDYyMjM1MH0.6oUB5TiQl-CFYy1JIO4RmYDtb_jlb120mAHjvdmQwaA",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmY2E4NjgzZmFkZjIxMjVjNWNjNWJhIn0sImlhdCI6MTY2MDcyNTM1Mn0.dJQzZ3A2f-uT8DvRmvWjRe543fTO0_retHCDfkenb6A",
       },
     });
     const json = response.json();
     console.log(json);
     //delete LOGIC
     const newNote = notes.filter((note) => note._id !== id);
-
     setNotes(newNote);
+  };
+
+  //pin any note
+  const pinnedNote = async (id, title, description, tag) => {
+    //Add API
+    let url = `${host}/api/notes/updatenote/${id}`;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmY2E4NjgzZmFkZjIxMjVjNWNjNWJhIn0sImlhdCI6MTY2MDcyNTM1Mn0.dJQzZ3A2f-uT8DvRmvWjRe543fTO0_retHCDfkenb6A",
+      },
+
+      body: JSON.stringify({ title, description, tag }),
+    });
+    const json = response.json();
+    console.log(json);
+
+    //Logic to be pinned
+
+    let restNote = notes.filter((note) => note._id !== id);
+    const newPinnedNote = notes.filter((note) => note._id === id);
+    restNote.unshift(newPinnedNote);
+    let NewPosition = JSON.parse(JSON.stringify(restNote.flat(1)));
+    setNotes(NewPosition);
   };
 
   const [notes, setNotes] = useState(notesInitial);
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, editNote, deleteNote, getAllNotes }}
+      value={{ notes, addNote, editNote, deleteNote, getAllNotes, pinnedNote }}
     >
       {props.children}
     </NoteContext.Provider>
