@@ -7,10 +7,10 @@
     "node": "16.16.0"
   },
   "scripts": {
-    "test":"echo \"Error: no test specified\" && exit 1",
-    "start":"node index.js",
-    "build":"cd frontend && npm run build",
-    "install-frontend":"cd frontend && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "build": "cd frontend && npm run build",
+    "install-frontend": "cd frontend && npm install",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install-frontend && npm run build "
   },
   "author": "",
@@ -22,8 +22,7 @@
     "express-validation": "^4.1.0",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.5.1"
-    
+    "mongoose": "^6.5.1",
+    "react-top-loading-bar": "^2.1.0"
   }
-
 }
