@@ -62,7 +62,7 @@ const AddNote = (props) => {
   };
 
   return (
-    <div>
+    <div className="container my-2">
       <h1>Add A Note</h1>
       <div className="mb-3 my-3 needs-validation" noValidate>
         <div className="mb-3 my-3">

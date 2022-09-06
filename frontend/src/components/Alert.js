@@ -9,10 +9,10 @@ function Alert(props) {
   }
 
   return (
-    <>
+    <div style={{ height: "60px", position: "sticky" }}>
       {props.alert && (
         <div
-          className={`alert alert-${props.alert.type} alert-dismissible fade show`}
+          className={`alert alert-${props.alert.type} alert-dismissible fade show `}
           role="alert"
         >
           <strong>{capitalizeFirstLetter(props.alert.type)}</strong>:
@@ -25,7 +25,7 @@ function Alert(props) {
           ></button>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

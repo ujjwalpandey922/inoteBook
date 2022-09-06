@@ -11,7 +11,6 @@ const jwt_Secret = "manikyoSaringan";
 //ROUTE 1 :Create a user using POST "/api/auth/createUser" doesnt require auth
 router.post(
   "/createUser",
-
   body("name", "Enter a Valid name").isLength({ min: 3 }),
   body("email", "Enter a Valid e-mail").isEmail(),
   body("password", "Password must be more than 6 character").isLength({
@@ -21,17 +20,18 @@ router.post(
   async (req, res) => {
     //if errors , return bad req + the error
     const errors = validationResult(req);
+    let success = false;
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
-
     try {
       // check if email exsits or not
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res
-          .status(400)
-          .json({ error: " Sorry a user with this email Already exsists..." });
+        return res.status(400).json({
+          success,
+          error: " Sorry a user with this email Already exsists...",
+        });
       }
 
       //create Salt using bcrypt
@@ -50,8 +50,8 @@ router.post(
         },
       };
       const autTokken = jwt.sign(data, jwt_Secret);
-
-      res.json({ autTokken });
+      success = true;
+      res.json({ success, autTokken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Some internal error occurred");
@@ -59,7 +59,7 @@ router.post(
   }
 );
 
-//ROUTE 2 :Create a user using POST "/api/auth/login"
+//ROUTE 2 :Log in the user using POST "/api/auth/login"
 router.post(
   "/login",
   body("email", "Enter a Valid e-mail").isEmail(),
@@ -70,18 +70,22 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     const { email, password } = req.body;
+    let success = false;
     try {
       let user = await User.findOne({ email: req.body.email });
 
       if (!user) {
-        return res.status(400).json({ error: "Enter right credentials " });
+        return res
+          .status(400)
+          .json({ success, error: "Enter right credentials ww" });
       }
       const passCompare = await bcrypt.compare(password, user.password);
 
       if (!passCompare) {
-        return res.status(400).json({ error: "Enter right credentials " });
+        return res
+          .status(400)
+          .json({ success, error: "Enter right credentials sss" });
       }
       // sending user id
       const data = {
@@ -90,7 +94,8 @@ router.post(
         },
       };
       const autTokken = jwt.sign(data, jwt_Secret);
-      res.json({ autTokken });
+      success = true;
+      res.json({ success, autTokken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Some internal error occurred");

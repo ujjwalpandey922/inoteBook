@@ -3,6 +3,7 @@ import contextValue from "../context/notes/NoteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 import Pagination from "./Pagination";
+import { useNavigate } from "react-router-dom";
 //All logic Same as addNotes #could have made a component of validate.....
 
 export default function Notes(props) {
@@ -12,8 +13,17 @@ export default function Notes(props) {
   const [added, setAdded] = useState(false);
   const [CurrentPages, setCurrentPages] = useState(1);
   const numberOfNotes = 6;
+  const navTo = useNavigate();
   useEffect(() => {
-    getAllNotes();
+    if (localStorage.getItem("token")) {
+      getAllNotes();
+      console.log("====================================");
+      console.log(localStorage.getItem("token"));
+      console.log("====================================");
+    } else {
+      navTo("/LogIn");
+      console.log("Dont have tokken");
+    }
     // eslint-disable-next-line
   }, []);
 
