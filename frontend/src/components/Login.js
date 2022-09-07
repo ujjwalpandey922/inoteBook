@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 function Login(props) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let navTo = useNavigate();
+  const host = "https://i--note--book.herokuapp.com";
   const handleClick = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const response = await fetch(`${host}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

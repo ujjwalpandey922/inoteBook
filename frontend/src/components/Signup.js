@@ -9,9 +9,10 @@ function Signup(props) {
     cpassword: "",
   });
   let navTo = useNavigate();
+  const host = "https://i--note--book.herokuapp.com";
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/createUser", {
+    const response = await fetch(`${host}/api/auth/createUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
