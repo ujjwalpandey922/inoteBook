@@ -37,6 +37,13 @@ function Signup(props) {
   };
 
   const onChange = (e) => {
+    if (
+      credentials.password &&
+      credentials.cpassword &&
+      credentials.password !== credentials.cpassword
+    ) {
+      props.showAlert(" Password Mismatch :) ", "danger");
+    }
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
