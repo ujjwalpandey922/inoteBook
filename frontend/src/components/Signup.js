@@ -9,7 +9,7 @@ function Signup(props) {
     cpassword: "",
   });
   let navTo = useNavigate();
-  const host = "https://i--note--book.herokuapp.com";
+  const host = "http://localhost:5000";
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch(`${host}/api/auth/createUser`, {
@@ -48,9 +48,9 @@ function Signup(props) {
   };
 
   return (
-    <div className="container my-2">
+    <div className="container my-2 col-md-4 col-sm-10">
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
+        <div className="mb-3 ">
           <label htmlFor="name" className="form-label">
             Name
           </label>

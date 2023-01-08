@@ -2,8 +2,8 @@ import NoteContext from "./NoteContext";
 import { useState } from "react";
 
 const NoteState = (props) => {
-  //Do not hard code....(duhhh!!!!!!)
-  const host = "https://i--note--book.herokuapp.com";
+  //Do not hard code....
+  const host = "http://localhost:5000";
   const notesInitial = [];
 
   //Get all note
@@ -110,6 +110,7 @@ const NoteState = (props) => {
   };
 
   const [notes, setNotes] = useState(notesInitial);
+  const [pinnedNotes, setPinnedNotes] = useState([]);
   return (
     <NoteContext.Provider
       value={{ notes, addNote, editNote, deleteNote, getAllNotes, pinnedNote }}

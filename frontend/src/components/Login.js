@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function Login(props) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let navTo = useNavigate();
-  const host = "https://i--note--book.herokuapp.com";
+  const host = "http://localhost:5000";
   const handleClick = async (e) => {
     e.preventDefault();
     const response = await fetch(`${host}/api/auth/login`, {
@@ -32,9 +32,9 @@ function Login(props) {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
   return (
-    <div>
+    <div className="container col-md-4 col-sm-10">
       <form onSubmit={handleClick}>
-        <div className="mb-3 my-2">
+        <div className="mb-3 my-2 ">
           <label htmlFor="email" className="form-label">
             Email address
           </label>
@@ -47,7 +47,7 @@ function Login(props) {
             onChange={onChange}
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-3 ">
           <label htmlFor="password" className="form-label">
             Password
           </label>
