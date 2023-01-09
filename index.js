@@ -4,7 +4,11 @@ const app = express();
 var cors = require("cors");
 connectToMongo();
 const path = require("path");
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+  })
+);
 //can send json request using this
 app.use(express.json());
 
