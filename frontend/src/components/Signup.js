@@ -9,10 +9,10 @@ function Signup(props) {
     cpassword: "",
   });
   let navTo = useNavigate();
-  const host = "http://localhost:5000";
+  // const host = "http://localhost:5000";
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${host}/api/auth/createUser`, {
+    const response = await fetch(`/api/auth/createUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

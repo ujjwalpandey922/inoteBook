@@ -17,9 +17,7 @@ export default function Notes(props) {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getAllNotes();
-      console.log("====================================");
       console.log(localStorage.getItem("token"));
-      console.log("====================================");
     } else {
       navTo("/LogIn");
       console.log("Dont have tokken");
