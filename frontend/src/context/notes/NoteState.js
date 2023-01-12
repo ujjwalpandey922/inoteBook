@@ -1,10 +1,12 @@
 import NoteContext from "./NoteContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const NoteState = (props) => {
   //Do not hard code....
   // const host = "http://localhost:5000";
-  const notesInitial = [];
+
+  const [notes, setNotes] = useState([]);
+  const [pinnedNotes, setPinnedNotes] = useState([]);
 
   //Get all note
   const getAllNotes = async () => {
@@ -18,8 +20,8 @@ const NoteState = (props) => {
       },
     });
     let json = await response.json();
-
     setNotes(json);
+    setEverthing(json);
   };
 
   //Add a note
@@ -85,35 +87,55 @@ const NoteState = (props) => {
   };
 
   //pin any note
-  const pinnedNote = async (id, title, description, tag) => {
-    //Add API
-    let url = `/api/notes/updatenote/${id}`;
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-
-      body: JSON.stringify({ title, description, tag }),
-    });
-    const json = response.json();
-    console.log(json);
-
-    //Logic to be pinned
-
-    let restNote = notes.filter((note) => note._id !== id);
-    const newPinnedNote = notes.filter((note) => note._id === id);
-    restNote.unshift(newPinnedNote);
-    let NewPosition = JSON.parse(JSON.stringify(restNote.flat(1)));
-    setNotes(NewPosition);
+  const pinnedNote = (id) => {
+    // use find to get only needed note
+    let selectedNote = notes.find((e) => e._id === id);
+    //use filter to get remaining notes
+    let restOfNotes = notes.filter((e) => e._id !== id);
+    //set remaining notes into note
+    setNotes(restOfNotes);
+    //do not use setPinnedNotes (will show error as state is note changed)
+    pinnedNotes.push(selectedNote);
+    //store to local storage
+    localStorage.setItem("pinned", JSON.stringify(pinnedNotes));
   };
-
-  const [notes, setNotes] = useState(notesInitial);
-  const [pinnedNotes, setPinnedNotes] = useState([]);
+  //remove notes from pin
+  const unPinnedNotes = (id) => {
+    // use find to get only needed note
+    let selectedNote = pinnedNotes.find((e) => e._id === id);
+    //use filter to get remaining notes
+    let restOfNotes = pinnedNotes.filter((e) => e._id !== id);
+    //set remaining notes into pinnednotes
+    setPinnedNotes(restOfNotes);
+    //do not use setPinnedNotes (will show error as state is note changed)
+    notes.push(selectedNote);
+    //unpinned data in local storage
+    pinnedNotes.length !== 1
+      ? localStorage.setItem("pinned", JSON.stringify(pinnedNotes))
+      : localStorage.removeItem("pinned");
+  };
+  const setEverthing = (allnotes) => {
+    let allpinnedNotes = JSON.parse(localStorage.getItem("pinned"));
+    let refresedNotes = allnotes.filter(
+      (e) => !allpinnedNotes?.find((ele) => e._id === ele._id)
+    );
+    refresedNotes.length === 0 ? <></> : setNotes(refresedNotes);
+    allpinnedNotes ? setPinnedNotes(allpinnedNotes) : setPinnedNotes([]);
+  };
+  console.log(pinnedNotes);
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, editNote, deleteNote, getAllNotes, pinnedNote }}
+      value={{
+        notes,
+        addNote,
+        editNote,
+        deleteNote,
+        getAllNotes,
+        pinnedNote,
+        pinnedNotes,
+        setPinnedNotes,
+        unPinnedNotes,
+      }}
     >
       {props.children}
     </NoteContext.Provider>

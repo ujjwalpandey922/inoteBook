@@ -62,10 +62,13 @@ const AddNote = (props) => {
   };
 
   return (
-    <div className="container my-2">
-      <h1>Add A Note</h1>
-      <div className="mb-3 my-3 needs-validation" noValidate>
-        <div className="mb-3 my-3">
+    <div className="container my-2 ">
+      <h1 className="text-center">Add A Note</h1>
+      <div
+        className="mb-3 my-3 needs-validation container justify-content-center align-items-center d-flex flex-column"
+        noValidate
+      >
+        <div className="mb-3 my-3 col-md-7 col-12">
           <label htmlFor="title" className="form-label">
             Title
           </label>

@@ -8,7 +8,14 @@ import { useNavigate } from "react-router-dom";
 
 export default function Notes(props) {
   const context = useContext(contextValue);
-  const { notes, getAllNotes, editNote } = context;
+  const {
+    notes,
+    getAllNotes,
+    editNote,
+    pinnedNotes,
+    setPinnedNotes,
+    setNotes,
+  } = context;
   const [error, setError] = useState({});
   const [added, setAdded] = useState(false);
   const [CurrentPages, setCurrentPages] = useState(1);
@@ -17,19 +24,19 @@ export default function Notes(props) {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getAllNotes();
-      console.log(localStorage.getItem("token"));
     } else {
       navTo("/LogIn");
-      console.log("Dont have tokken");
     }
     // eslint-disable-next-line
   }, []);
+  console.log(notes);
 
   const [note, setNote] = useState({
     eid: "",
     etitle: "",
     edescription: "",
     etag: "",
+    pinned: false,
   });
   const ref = useRef(null);
   const refClose = useRef(null);
@@ -90,13 +97,32 @@ export default function Notes(props) {
     return error;
   };
 
-  //Logic to daisplay only fixed number to notes
+  //Logic to display only fixed number to notes
   const indexOfLastItem = CurrentPages * numberOfNotes;
   const indexOfFirstItem = indexOfLastItem - numberOfNotes;
   const currentItems = notes.slice(indexOfFirstItem, indexOfLastItem);
+  //set all notes correctly
+
   return (
     <>
-      <AddNote showAlert={props.showAlert} />
+      <div className="pinnedContainer ">
+        <AddNote showAlert={props.showAlert} />
+        {pinnedNotes.length !== 0 && (
+          <>
+            <h2>Pinned Notes.....</h2>
+            <div className="pinned d-flex flex-wrap">
+              {pinnedNotes.map((note) => (
+                <NoteItem
+                  key={note._id}
+                  notes={note}
+                  updateNote={updateNote}
+                  showAlert={props.showAlert}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
       <button
         ref={ref}
         type="button"
@@ -197,7 +223,7 @@ export default function Notes(props) {
       </div>
 
       <div className="row my-3">
-        <h2>Your Notes</h2>
+        <h2>Your Notes.......</h2>
         <div className="container">
           {notes.length === 0 && "NO NOTES TO DISPLAY"}
         </div>
@@ -206,6 +232,7 @@ export default function Notes(props) {
             notes={note}
             key={note._id}
             updateNote={updateNote}
+            setNote={setNote}
             showAlert={props.showAlert}
           />
         ))}

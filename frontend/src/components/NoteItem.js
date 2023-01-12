@@ -1,12 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import contextValue from "../context/notes/NoteContext";
+import { AiOutlinePushpin, AiFillPushpin } from "react-icons/ai";
 
 const NoteItem = (props) => {
   const context = useContext(contextValue);
-  const { deleteNote, pinnedNote } = context;
-  const { notes, updateNote } = props;
-  const date = new Date(notes.Date).toLocaleString();
+  const { deleteNote, pinnedNote, unPinnedNotes } = context;
+  const { updateNote, notes } = props;
 
+  const [toggle, setToggle] = useState(false);
+  const date = new Date(notes.Date).toLocaleString();
+  useEffect(() => {
+    let allpinnedNotes = JSON.parse(localStorage.getItem("pinned"));
+    // console.log(allpinnedNotes);
+    allpinnedNotes?.forEach((e) => {
+      if (e._id === notes._id) setToggle(true);
+    });
+  }, [notes]);
+  const handlePin = () => {
+    setToggle(true);
+    pinnedNote(notes._id);
+    window.scroll(0, 0);
+    props.showAlert(" PINNED to the Top", "success");
+  };
+  const handleUnPin = () => {
+    setToggle(false);
+    unPinnedNotes(notes._id);
+    window.scroll(0, 0);
+    props.showAlert(" Note unpinned", "danger");
+  };
   return (
     <div className="col-md-3 mx-3">
       <div className="card my-3">
@@ -31,13 +52,19 @@ const NoteItem = (props) => {
         </div>
         <footer className="footer mx-1 my-1 d-flex align-items-center me-auto p-2">
           <div className="card-footer text-muted">{date}</div>
-          <i
-            className="fa-solid fa-map-pin "
-            onClick={() => {
-              pinnedNote(notes._id);
-              props.showAlert("  PINNED to the Top", "success");
-            }}
-          ></i>
+          {!toggle ? (
+            <AiOutlinePushpin
+              onClick={handlePin}
+              style={{ cursor: "pointer", fontSize: "20" }}
+            />
+          ) : (
+            <AiFillPushpin
+              onClick={handleUnPin}
+              style={{ cursor: "pointer", fontSize: "20" }}
+            />
+          )}
+
+          <i className="fa-regular fa-location-check"></i>
         </footer>
       </div>
     </div>
